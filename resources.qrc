@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>resources/image(1).png</file>
+        <file>resources/bomb.png</file>
+        <file>resources/flag.png</file>
+    </qresource>
+    <qresource prefix="/findPair">
+        <file>resources/pokemons10.png</file>
+        <file>resources/pokemons9.png</file>
+        <file>resources/pokemons8.png</file>
+        <file>resources/pokemons7.png</file>
+        <file>resources/pokemons6.png</file>
+        <file>resources/pokemons4.png</file>
+        <file>resources/pokemons2.png</file>
+        <file>resources/pokemons1.png</file>
+        <file>resources/funny-dog-3d-illustration.jpg</file>
+        <file>resources/18331653_5954489.svg</file>
+        <file>resources/pokemons3.png</file>
+        <file>resources/pokemons5.png</file>
+    </qresource>
+</RCC>
