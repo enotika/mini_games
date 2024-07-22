@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 #include <set>
-
+#include <QTableWidgetItem>
+#include <QTableWidget>
+#include "ui_minor.h"
+#include <QtDebug>
 namespace Ui {
 class minor;
 }
@@ -18,6 +21,22 @@ public:
 
 public slots:
     void bfs(int startRow, int startCol);
+//    void resizeEvent(QResizeEvent* event) {
+//        if(columns > 2){
+//            qDebug() << "resize";
+//            int sz = (this->size().width() - /*ui->pushButton->size().width()*/90)/columns;
+//            for(int i = 0; i < rows; i++){
+//                ui->tableWidget->setRowHeight(i, sz);
+//            }
+//            for(int i = 0; i < columns; i++){
+//                ui->tableWidget->setColumnWidth(i, sz);
+//            }
+//            qDebug() << columns * sz + 2 << " " << rows * sz + 2;
+////            ui->tableWidget->setFixedSize(columns * sz + 2, rows * sz + 2);
+////            ui->tableWidget->setSizeAdjustPolicy(Qt::)
+
+//        }
+//    }
 private slots:
     void on_pushButton_clicked();
 

@@ -30,7 +30,6 @@ public slots:
     void resizeEvent(QResizeEvent* event) {
         if(idOpened != -1){
             cards[idOpened]->setPixmap(QPixmap());
-
             QTimer::singleShot(50, [this]() {
                     // Выполнить некоторые действия
 //                    qDebug() << "Здравствуй, мир!";
