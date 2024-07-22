@@ -55,7 +55,6 @@ void minor::on_pushButton_clicked()
     ui->tableWidget->setFixedSize(columns * 30 + 2, rows * 30 + 2);
 
     QRandomGenerator* generator = QRandomGenerator::global();
-    //qDebug() << "\n\n\nNEW";
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
             ui->tableWidget->setItem(i, j, new QTableWidgetItem(""));
@@ -65,11 +64,9 @@ void minor::on_pushButton_clicked()
             // Генерируем случайное число в диапазоне [-14, 13]
         int ya = generator->bounded(0, columns);
         int xa = generator->bounded(0, rows);
-        //qDebug() << "Try to set in " << xa << " " << ya;
         while(pole[xa][ya] == -1){
             ya = generator->bounded(0, columns);
             xa = generator->bounded(0, rows);
-            //qDebug() << xa << " " << ya;
         }
         mines.insert(std::make_pair(xa, ya));
         pole[xa][ya] = -1;
@@ -115,33 +112,20 @@ void minor::on_pushButton_clicked()
             userNumber.insert({mx, my + 1});
         }
     }
-
-//    for(int i = 0; i < rows; i++){
-//        for(int j = 0; j < columns; j++){
-//            if(pole[i][j] == 0){
-//                ui->tableWidget->setItem(i, j, new QTableWidgetItem(""));
-//            } else {
-//                ui->tableWidget->setItem(i, j, new QTableWidgetItem(QString::number(pole[i][j])));
-//            }
-//        }
-//    }
 }
 
 
 void minor::on_tableWidget_cellClicked(int row, int column)
 {
-    //qDebug() << row << " " << column << " clicked";
     if(openPole.count({row, column})){
         return;
     }
     if(!flags.count({row, column})){
         QIcon icon(":/images/resources/flag.png");
         QTableWidgetItem* item = new QTableWidgetItem();
-//                    item->setIcon(icon);
         item->setIcon(icon);
         ui->tableWidget->setIconSize(QSize(ui->tableWidget->columnWidth(column) - 1, ui->tableWidget->rowHeight(row) - 1));
         ui->tableWidget->setItem(row, column, item);
-//        ui->tableWidget->setItem(row, column, new QTableWidgetItem("f"));
         flags.insert({row, column});
     } else if(flags.count({row, column})){
         ui->tableWidget->setItem(row, column, new QTableWidgetItem(""));
@@ -180,7 +164,6 @@ void minor::bfs(int startRow, int startCol) {
 
         // Если значение в текущей ячейке не 0, выходим из цикла
         if (pole[x][y] != 0) {
-//            ui->tableWidget->item(x, y)->setText(QString::number(pole[x][y]));
             ui->tableWidget->setItem(x, y, new QTableWidgetItem(QString::number(pole[x][y])));
             openPole.insert({x, y});
             openNumber.insert({x, y});
@@ -222,19 +205,9 @@ void minor::bfs(int startRow, int startCol) {
 
 void minor::on_tableWidget_cellDoubleClicked(int row, int column)
 {
-    //qDebug() << row << " " << column << " double clicked";
-//    QTextStream out(stdout);
     if(openPole.count({row, column})){
         return;
     }
-////    out << trUtf8("Копирование:\n");
-
-//    for(int i = 0; i < rows; i++){
-//        for(int j = 0; j < columns; j++){
-//            out << pole[i][j] << " ";
-//        }
-//        out << "\n";
-//    }
 
     if(pole[row][column] == -1){
         qDebug() << "LOSE";
@@ -251,7 +224,6 @@ void minor::on_tableWidget_cellDoubleClicked(int row, int column)
                     } else {
                         QIcon icon(":/images/resources/bomb.png");
                         QTableWidgetItem* item = new QTableWidgetItem();
-    //                    item->setIcon(icon);
                         item->setIcon(icon);
                         ui->tableWidget->setIconSize(QSize(ui->tableWidget->columnWidth(j) - 1, ui->tableWidget->rowHeight(i) - 1));
                         ui->tableWidget->setItem(i, j, item);
@@ -262,23 +234,8 @@ void minor::on_tableWidget_cellDoubleClicked(int row, int column)
         return;
     }
     if(pole[row][column] == 0){
-//        QIcon icon(":/images/resources/image(1).png");
-//        QTableWidgetItem* item = new QTableWidgetItem();
-//        item->setIcon(icon);
-//        ui->tableWidget->setItem(row, column,item);
-        bfs(row, column);
-//        QTextStream out(stdout);
-//        for(auto to : openNumber){
-//            out << to.first << "," << to.second << " ";
-//        }
-//        out << "\n";
-//        for(auto to : flags){
-//            out << to.first << "," << to.second << " ";
-//        }
-//        out << "\n";
         if(openNumber == userNumber){
             qDebug() << "WINNER!!!!!";
-//            QMessageBox::information(this, "Победа", "Вы победили!\nНачать заново?");
             QMessageBox msgBox;
             msgBox.setWindowTitle("Победа");
             msgBox.setText("Вы победили!\nНачать заново?");
@@ -287,12 +244,8 @@ void minor::on_tableWidget_cellDoubleClicked(int row, int column)
 
             if (result == QMessageBox::Yes) {
                 on_pushButton_clicked();
-                // Пользователь нажал "Да"
-                // Добавьте здесь необходимые действия
             } else if (result == QMessageBox::No) {
                 this->close();
-                // Пользователь нажал "Нет"
-                // Добавьте здесь необходимые действия
             }
         }
         return;
@@ -300,17 +253,8 @@ void minor::on_tableWidget_cellDoubleClicked(int row, int column)
     ui->tableWidget->setItem(row, column, new QTableWidgetItem(QString::number(pole[row][column])));
     openPole.insert({row, column});
     openNumber.insert({row, column});
-//    for(auto to : openNumber){
-//        out << to.first << "," << to.second << " ";
-//    }
-//    out << "\n";
-//    for(auto to : flags){
-//        out << to.first << "," << to.second << " ";
-//    }
-//    out << "\n";
     if(openNumber == userNumber){
         qDebug() << "WINNER!!!!!";
-//        QMessageBox::information(this, "Победа", "Вы победили!\nНачать заново?");
         QMessageBox msgBox;
         msgBox.setWindowTitle("Победа");
         msgBox.setText("Вы победили!\nНачать заново?");
@@ -319,12 +263,8 @@ void minor::on_tableWidget_cellDoubleClicked(int row, int column)
 
         if (result == QMessageBox::Yes) {
             on_pushButton_clicked();
-            // Пользователь нажал "Да"
-            // Добавьте здесь необходимые действия
         } else if (result == QMessageBox::No) {
             this->close();
-            // Пользователь нажал "Нет"
-            // Добавьте здесь необходимые действия
         }
     }
 }

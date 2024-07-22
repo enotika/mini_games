@@ -31,6 +31,7 @@ private:
      int down = 260;
      QColor headColor = Qt::red;
      QColor bodyColor = Qt::green;
+     QString imageHead = "";
 public slots:
      void keyPressEvent(QKeyEvent *e);
      void keyReleaseEvent(QKeyEvent *e);
@@ -43,5 +44,6 @@ private slots:
      void on_actionWalls_triggered();
      void on_actionNo_walls_triggered();
      void on_actionChange_snake_color_triggered();
+     void on_actionAdd_image_on_head_triggered();
 };
 #endif // MAINWINDOW_H

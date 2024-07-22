@@ -74,6 +74,7 @@
     <addaction name="actionNo_walls"/>
     <addaction name="separator"/>
     <addaction name="actionChange_snake_color"/>
+    <addaction name="actionAdd_image_on_head"/>
    </widget>
    <addaction name="menumenu"/>
   </widget>
@@ -91,6 +92,11 @@
   <action name="actionChange_snake_color">
    <property name="text">
     <string>Change snake color</string>
+   </property>
+  </action>
+  <action name="actionAdd_image_on_head">
+   <property name="text">
+    <string>Add image on head</string>
    </property>
   </action>
  </widget>

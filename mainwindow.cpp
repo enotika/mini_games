@@ -13,13 +13,12 @@
 #include <set>
 #include <QGraphicsPixmapItem>
 #include <QLabel>
+#include <QFileDialog>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    this->resize(620,630);          /// Задаем размеры виджета, то есть окна
-//    this->setFixedSize(620,630);
     vec.push_back({0, 0});
     scene = new QGraphicsScene();   /// Инициализируем графическую сцену
     ui->graphicsView->setScene(scene);  /// Устанавливаем графическую сцену в graphicsView
@@ -60,24 +59,18 @@ MainWindow::~MainWindow()
 bool spacePressed = false;
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    //qDebug << e;
     switch (e->key()) {
         case Qt::Key_W:
             if(dir != -1 || vec.size() == 1)dir = 1;
-//            //qDebug << "DDDD";
-//            _image->up();
             break;
         case Qt::Key_S:
             if(dir != 1 || vec.size() == 1)dir = -1;
-//            _image->down();
             break;
         case Qt::Key_A:
             if(dir != -2 || vec.size() == 1)dir = 2;
-//            _image->left();
             break;
         case Qt::Key_D:
             if(dir != 2 || vec.size() == 1)dir = -2;
-//            _image->right();
             break;
         case Qt::Key_Space:
         if (!spacePressed) {
@@ -86,7 +79,6 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
             break;
         case Qt::Key_Escape:
             this->close();
-    //            _image->right();
             break;
     }
 }
@@ -118,18 +110,15 @@ void MainWindow::genApple(int & x, int & y){
 }
 void MainWindow::draw()
 {
-    //qDebug << vec[0];
     if (spacePressed) {
         timer->setInterval(1000/15);
     } else {
         timer->setInterval(1000/10);
     }
-    //qDebug <<"SANKE: " << vec[0].first << " " << vec[0].second;
     if(dir == 1){
         for(int i = 0; i < vec.size(); i++){
             if(i != vec.size() - 1){
                 vec[i] = vec[i + 1];
-                //qDebug << "KILLED " <<(std::make_pair(vec[i].first, vec[i].second -20) == vec[i]);
                 if(std::make_pair(vec[vec.size() - 1].first, vec[vec.size() - 1].second -20) == vec[i]){
                     endGame(true);
                 }
@@ -144,7 +133,6 @@ void MainWindow::draw()
                     }
                 }
             }
-//            //qDebug << "RRRRRRRRRRR " << (vec[i] == std::make_pair(xa, ya));
         }
         if(vec[vec.size() - 1] == std::make_pair(xa, ya)){
             xa = INT_MIN;
@@ -238,28 +226,28 @@ void MainWindow::draw()
         genApple(xa, ya);
     }
     scene->clear();
-//    //qDebug << xa << " " << ya;
     for(int i = 0; i < vec.size(); i++){
         auto to = vec[i];
         if(i != vec.size() - 1)scene->addEllipse(to.first, to.second, 20, 20, QPen(headColor), QBrush(bodyColor));
-        else scene->addEllipse(to.first, to.second, 20, 20, QPen(headColor), QBrush(headColor));
+        else {
+            if(imageHead == "")
+                    scene->addEllipse(to.first, to.second, 20, 20, QPen(headColor), QBrush(headColor));
+            else {
+                QPixmap pixmap(imageHead);
+                QGraphicsPixmapItem * img = scene->addPixmap(pixmap);
+                img->setPos(to.first, to.second);
+                img->setScale(20.0/pixmap.height());
+            }
+        }
     }
     if(xa != INT_MIN)scene->addEllipse(xa, ya, 20, 20, QPen(Qt::yellow), QBrush(Qt::blue));
-//    QPixmap pixmap(":/images/resources/image(1).png");
-//    QIcon icn(":/images/resources/image(1).png");
-//    QGraphicsPixmapItem * img = scene->addPixmap(pixmap);
-//    img->setPos(vec[vec.size() - 1].first, vec[vec.size() - 1].second);
-//    img->setScale(20/pixmap.height());
+
 
 }
 
 void MainWindow::spaceTimerTimeout()
 {
-//    if (spacePressed) {
-//        timer->setInterval(1000/15);
-//    } else {
-//        timer->setInterval(1000/10);
-    //    }
+
 }
 
 void MainWindow::endGame(bool f)
@@ -282,11 +270,9 @@ void MainWindow::endGame(bool f)
         msgBox.exec();
 
         if (msgBox.clickedButton() == yesButton) {
-            // Код, который выполняется, если пользователь нажал "Да"
-            //qDebug << "Пользователь нажал 'Да'";
+
         } else if (msgBox.clickedButton() == noButton) {
-            // Код, который выполняется, если пользователь нажал "Нет"
-            //qDebug << "Пользователь нажал 'Нет'";
+
             this->close();
         }
 }
@@ -298,7 +284,6 @@ void MainWindow::on_actionWalls_triggered()
     endGame(false);
     ui->actionWalls->setDisabled(true);
     ui->actionNo_walls->setDisabled(false);
-//    ui->actionWalls->setStyleSheet("color: blue; font-weight: bold;");
 }
 
 
@@ -313,6 +298,7 @@ void MainWindow::on_actionNo_walls_triggered()
 
 void MainWindow::on_actionChange_snake_color_triggered()
 {
+
     // Открыть диалоговое окно для выбора цвета
         QColor selectedColor = QColorDialog::getColor(Qt::white, this, "Choose a body Color", QColorDialog::ShowAlphaChannel);
         // Проверить, был ли цвет выбран
@@ -325,6 +311,17 @@ void MainWindow::on_actionChange_snake_color_triggered()
         if (selectedColor.isValid())
         {
             headColor = selectedColor;
+            imageHead = "";
         }
+}
+
+
+void MainWindow::on_actionAdd_image_on_head_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(
+                this, "Select a file", QDir::homePath(), "All files (*)");
+            if (!fileName.isEmpty()) {
+                imageHead = fileName;
+            }
 }
 

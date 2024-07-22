@@ -86,17 +86,12 @@ void FindPair::on_spinBox_valueChanged(int arg1)
         label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         label->setStyleSheet("ClickableLabel { background-color: lightgray; }");
         label->setAlignment(Qt::AlignAbsolute);
-//        label->setAlignment(Qt::AlignHCenter);
         label->setMinimumSize(20,20);
 
-//        connect(label, &ClickableLabel::clicked, this, &FindPair::onLabelClicked);
-//        QObject::connect(label, SIGNAL(clicked()), this, SLOT(close()));
 
         QObject::connect(label, SIGNAL(clicked()), this, SLOT(onLabelClickedWithoutLabel()));
-//QObject::connect(label, SIGNAL(clicked()), this, SLOT(onLabelClickedWithoutLabel(QObject*)));
         cards.push_back(label);
         mainLayout->addWidget(label, i / gridSize, i % gridSize);
-//        mainLayout->setAlignment(label, Qt::AlignAbsolute);
     }
     std::set < int> st;
 
@@ -118,18 +113,9 @@ void FindPair::on_spinBox_valueChanged(int arg1)
     }
 }
 void FindPair::helpToWait(){
-    //    if(idOpened != -1)qDebug() << cards[idOpened]->pixmap() << " mm " <<  label->pixmap();
     QLabel* label = qobject_cast<QLabel*>(sender());
     if(isWating)return;
-//    qDebug() << "\n------------";
-//    for(auto to : allOpened){
-//        qDebug() << to;
-//    }
-//    qDebug() << allOpened.size() <<" " << idOpened ;
-//    if(allOpened.size() % 2 == 0 && idOpened != -1)return;
 
-
-    //    qDebug() << label;
             int index = -1;
             for (int i = 0; i < cards.size(); i++)
             {
@@ -143,14 +129,12 @@ void FindPair::helpToWait(){
             hodov++;
             ui->resultLabel->setText("Ходов: " + QString::number(hodov));
 
-//            qDebug() << index << " " << pairs[index] << " " << images[pairs[index]] << " " << QPixmap(images[pairs[index]]);
             if(idOpened == -1){
                 // Установка политики размера метки
                 label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
                 label->setScaledContents(true);
-    //            // Установка изображения
+    //             Установка изображения
                 label->setPixmap(QPixmap(images[pairs[index]]).scaled(label->size()));
-    //            label->setPixmap(QPixmap(images[pairs[index]]));
 
                 idOpened = index;
                 allOpened.insert(index);
@@ -158,10 +142,9 @@ void FindPair::helpToWait(){
             } else if(idOpened != -1) {
                 label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
                 label->setScaledContents(true);
-    //            // Установка изображения
+    //             Установка изображения
                 label->setPixmap(QPixmap(images[pairs[index]]).scaled(label->size()));
                 if(pairs[index] == pairs[idOpened] ){
-//                    qDebug() << "equal";
                     openedCards.push_back(index);
                     openedCards.push_back(idOpened);
                     if(openedCards.size() == ui->spinBox->value() * 2){
@@ -173,12 +156,10 @@ void FindPair::helpToWait(){
 
                         if (result == QMessageBox::Yes) {
                             on_spinBox_valueChanged(ui->spinBox->value());
-                            // Пользователь нажал "Да"
-                            // Добавьте здесь необходимые действия
+
                         } else if (result == QMessageBox::No) {
                             this->close();
-                            // Пользователь нажал "Нет"
-                            // Добавьте здесь необходимые действия
+
                         }
                     }
                     idOpened = -1;
@@ -190,41 +171,25 @@ void FindPair::helpToWait(){
                     QTimer::singleShot(1000, [this, index]() {
                         isWating = false;
                             // Выполнить некоторые действия
-    //                        qDebug() << "Здравствуй, мир!";
 
                                 cards[idOpened]->setPixmap(QPixmap());
                                 cards[index]->setPixmap(QPixmap());
                                 idOpened = -1;
                                 allOpened.erase(index);
                                 allOpened.erase(idOpened);
-    //                        qDebug() << "EEEEEENNNNNDDD";
                         });
                 }
 
             }
             emit functionCompleted();
-    //        qDebug() << "Label at index" << index << "was clicked.";
 }
 void FindPair::onLabelClickedWithoutLabel()
 {
-//    qDebug() << "label";
     helpToWait();
 
     QEventLoop eventLoop;
     connect(this, &FindPair::functionCompleted, &eventLoop, &QEventLoop::quit);
-    //    eventLoop.exec();
 
-//    mutex.lock();
-//    helpToWait(label);
-//    mutex.unlock();
-
-    // Запуск другой функции асинхронно
-//    QFuture<void> future = QtConcurrent::run([this]() {
-//    });
-//        // Ожидание завершения другой функции
-//        QFutureWatcher<void> watcher;
-//        watcher.setFuture(future);
-//        watcher.waitForFinished();
 
 }
 
@@ -233,11 +198,8 @@ void FindPair::on_actionsz_triggered()
 {
     this->resize(500, 500);
             if(idOpened != -1){
-//                qDebug() << "SSSSSSSSSSSSSSSSSSSSSSS " << cards[idOpened];
 
-    //            lbl = cards[idOpened];
-    //        // Установка политики размера метки
-    //            lbl->setPixmap(QPixmap());
+    //        Установка политики размера метки
                 cards[idOpened]->setPixmap(QPixmap());
                 QTimer::singleShot(100, [this]() {
                         // Выполнить некоторые действия

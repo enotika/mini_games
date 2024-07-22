@@ -11,21 +11,40 @@ CONFIG += c++11
 
 SOURCES += \
     clickablelabel.cpp \
+    figuretetris.cpp \
     findpair.cpp \
+    ltetris.cpp \
+    lttetris.cpp \
     main.cpp \
     mainwindow.cpp \
-    minor.cpp
+    minor.cpp \
+    squaretetris.cpp \
+    stetris.cpp \
+    sticktetris.cpp \
+    tetris.cpp \
+    ttetris.cpp \
+    ztetris.cpp
 
 HEADERS += \
     clickablelabel.h \
+    figuretetris.h \
     findpair.h \
+    ltetris.h \
+    lttetris.h \
     mainwindow.h \
-    minor.h
+    minor.h \
+    squaretetris.h \
+    stetris.h \
+    sticktetris.h \
+    tetris.h \
+    ttetris.h \
+    ztetris.h
 
 FORMS += \
     findpair.ui \
     mainwindow.ui \
-    minor.ui
+    minor.ui \
+    tetris.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
