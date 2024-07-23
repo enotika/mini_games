@@ -234,6 +234,7 @@ void minor::on_tableWidget_cellDoubleClicked(int row, int column)
         return;
     }
     if(pole[row][column] == 0){
+                bfs(row, column);
         if(openNumber == userNumber){
             qDebug() << "WINNER!!!!!";
             QMessageBox msgBox;

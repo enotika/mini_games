@@ -19,6 +19,7 @@ SOURCES += \
     mainwindow.cpp \
     minor.cpp \
     squaretetris.cpp \
+    startwindow.cpp \
     stetris.cpp \
     sticktetris.cpp \
     tetris.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     mainwindow.h \
     minor.h \
     squaretetris.h \
+    startwindow.h \
     stetris.h \
     sticktetris.h \
     tetris.h \
@@ -44,6 +46,7 @@ FORMS += \
     findpair.ui \
     mainwindow.ui \
     minor.ui \
+    startwindow.ui \
     tetris.ui
 
 # Default rules for deployment.
